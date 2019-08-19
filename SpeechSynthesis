@@ -1,0 +1,19 @@
+import os      # Needed for version 2 of our function  
+import pygame  # Needed for version 1 of our function  
+from gtts import gTTS 
+
+pygame.mixer.init()
+ 
+
+
+def Speak(toSay, mylang):    # Version 1 uses pygame library for playback     
+    tts.gTTS(toSay, mylang)  
+    tts.save("/tmp/temp.mp3") 
+    pygame.mixer.music.set_volume(1.0) 
+    pygame.mixer.music.load("/tmp/temp.mp3") 
+    pygame.mixer.music.play()
+    
+def SpeakV2(toSay, mylang):    # Version 2 uses a system app for playback
+    tts.gTTS(toSay, mylang) 
+    tts.save("/tmp/temp.mp3") 
+    os.system("omxplayer /tmp/temp.mp3 &")      # & to run in background
