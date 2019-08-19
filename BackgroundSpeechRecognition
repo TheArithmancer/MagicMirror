@@ -1,21 +1,44 @@
-  
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
-# NOTE: this example requires PyAudio because it uses the Microphone class
+# This is incomplete code for the magic mirror to be tested after the Speech Recognition Tutorial 
 
 import time
-
+import SpeechSynthesis
 import speech_recognition as sr
+
+import os      # Needed for version 2 of our function  
+import pygame  # Needed for version 1 of our function  
+from gtts import gTTS 
+
+pygame.mixer.init()
+ 
+
+
+def Speak(toSay, mylang):    # Version 1 uses pygame library for playback     
+    tts.gTTS(toSay, mylang)  
+    tts.save("/tmp/temp.mp3") 
+    pygame.mixer.music.set_volume(1.0) 
+    pygame.mixer.music.load("/tmp/temp.mp3") 
+    pygame.mixer.music.play()
+    
+def SpeakV2(toSay, mylang):    # Version 2 uses a system app for playback
+    tts.gTTS(toSay, mylang) 
+    tts.save("/tmp/temp.mp3") 
+    os.system("omxplayer /tmp/temp.mp3 &")      # & to run in background
+
+
+def ReactToSpeech(Speech):
+    if "fairest of them all" in Speech:
+      Speak("The Arithmancer is of course the fairest of them all..."
+      
 
 
 # this is called from the background thread
 def callback(recognizer, audio):
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
-        # for testing purposes, we're just using the default API key
-        # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        # instead of `r.recognize_google(audio)`
-        print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
+        #  Use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")` for production
+        ReactToSpeech(recognizer.recognize_google(audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
